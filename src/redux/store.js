@@ -1,5 +1,6 @@
 import { createStore, compose } from 'redux'
 import { reduxReactFirebase } from 'redux-react-firebase'
+import rootReducer from 'reducers';
 
 const config = {
   apiKey: '<your-api-key>',
@@ -11,4 +12,5 @@ const createStoreWithFirebase = compose(
   reduxReactFirebase(config),
 )(createStore)
 
-export default createStoreWithFirebase;
+const store = createStoreWithFirebase(rootReducer);
+export default store;
