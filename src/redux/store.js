@@ -1,6 +1,6 @@
 import { createStore, compose } from 'redux'
 import { reduxReactFirebase } from 'redux-react-firebase'
-import rootReducer from 'reducers';
+import rootReducer from './reducers';
 
 const config = {
   apiKey: "AIzaSyB4PsF-VBHf2UlnUmK2aR5mYghwpj1F9qQ",
