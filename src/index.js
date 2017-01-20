@@ -1,22 +1,25 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { Router, Route, browserHistory } from 'react-router';
+import { IndexRoute, Router, Route, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import store from './redux/store';
 
-import { App } from './containers';
+import { App, Note } from './containers';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/css/bootstrap-theme.min.css';
 import './index.css';
 
 const history = syncHistoryWithStore(browserHistory, store)
 
-const testDiv = () => <div>Hello</div>
+const Home = () => <div>Home</div>
 
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
       <Route path="/" component={App}>
-        <Route path="app" component={testDiv} />
+        <IndexRoute component={Home} />
+        <Route path="note" component={Note} />
       </Route>
     </Router>
   </Provider>,
