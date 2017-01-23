@@ -2,29 +2,31 @@ import React, { Component } from 'react';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
+import 'rc-time-picker/assets/index.css';
+import TimePicker from 'rc-time-picker';
+import './Note.css';
 
 export default class Note extends Component {
   constructor() {
     super();
     this.state = {
-      startDate: moment()
+      time: moment()
     };
   }
+
   onSubmit() {
     const data = {
       type: this.refs.type.value,
       price: this.refs.price.value,
       name: this.refs.name.value,
-      // date: this.refs.date.value,
-      date: this.state.startDate,
-      time: this.refs.time.value
+      time: this.state.time.valueOf()
     }
-    console.log('submit', data)
+    console.log('[submit]', data.time)
   }
 
-  handleChange(newDate) {
+  handleChange(value) {
     this.setState({
-      startDate: newDate
+      time: value
     });
   }
 
@@ -50,13 +52,18 @@ export default class Note extends Component {
               <label>Date</label><br/>
               <DatePicker
                 className="form-control"
-                selected={this.state.startDate}
+                selected={this.state.time}
                 onChange={this.handleChange.bind(this)}
               />
             </div>
             <div className="form-group">
-              <label>Time</label>
-              <input ref="time" type="time" className="form-control"/>
+              <label>Time</label><br/>
+              <TimePicker
+                className="time-picker"
+                defaultValue={this.state.time}
+                onChange={this.handleChange.bind(this)}
+                showSecond={false}
+              />
             </div>
             <button className="btn btn-primary" onClick={this.onSubmit.bind(this)}>Save</button>
           </div>
