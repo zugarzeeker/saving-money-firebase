@@ -5,29 +5,52 @@ import 'react-datepicker/dist/react-datepicker.css';
 import 'rc-time-picker/assets/index.css';
 import TimePicker from 'rc-time-picker';
 import './Note.css';
+import cn from 'classnames';
+import { connect } from 'react-redux'
+import { firebase, helpers } from 'redux-react-firebase';
+const { dataToJS } = helpers
 
-export default class Note extends Component {
+
+// @firebase([
+//   'myaccount'
+// ])
+// @connect(
+//   ({ firebase }) => ({
+//     myaccount: dataToJS(firebase, 'myaccount'),
+//   })
+// )
+class Note extends Component {
   constructor() {
     super();
     this.state = {
-      time: moment()
+      time: moment(),
+      transaction: 'income'
     };
   }
 
   onSubmit() {
     const data = {
-      type: this.refs.type.value,
-      price: this.refs.price.value,
+      type: this.state.transaction,
+      price: +this.refs.price.value || 0,
       name: this.refs.name.value,
-      time: this.state.time.valueOf()
+      time: this.state.time.valueOf(),
+      transaction: this.state.transaction
     }
-    console.log('[submit]', data.time)
+    this.props.firebase.push('myaccount', data, () => {
+      console.log('[submit]', data)
+    });
   }
 
   handleChange(value) {
     this.setState({
       time: value
     });
+  }
+
+  toggleTransactionType() {
+    this.setState({
+      transaction: this.state.transaction === 'income' ? 'expense' : 'income'
+    })
   }
 
   render() {
@@ -37,8 +60,11 @@ export default class Note extends Component {
           <h1>Note</h1>
           <div>
             <div className="form-group">
-              <label>Type</label>
-              <input ref="type" type="text" className="form-control"/>
+              <label>Type: </label>
+              <button type="button" className={cn('btnType', 'btn', {
+                'btn-success': this.state.transaction === 'income',
+                'btn-danger': this.state.transaction === 'expense'
+              })} onClick={this.toggleTransactionType.bind(this)}>{this.state.transaction}</button>
             </div>
             <div className="form-group">
               <label>Price</label>
@@ -72,3 +98,14 @@ export default class Note extends Component {
     );
   }
 }
+
+
+export default connect(
+  ({ firebase }) => ({
+    myaccount: dataToJS(firebase, 'myaccount')
+  })
+)(
+  firebase([
+    'myaccount'
+  ])(Note)
+);
