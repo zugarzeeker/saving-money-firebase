@@ -26,7 +26,15 @@ class History extends Component {
 
   render() {
     return (
-      <table>
+      <table className="table table-striped">
+        <thead>
+          <tr>
+            <th>name</th>
+            <th>type</th>
+            <th>price</th>
+            <th>time</th>
+          </tr>
+        </thead>
         <tbody>{this.renderTransactions()}</tbody>
       </table>
     );
