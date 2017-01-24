@@ -34,7 +34,7 @@ class Note extends Component {
       price: +this.refs.price.value || 0,
       name: this.refs.name.value,
       time: this.state.time.valueOf(),
-      transaction: this.state.transaction
+      // transaction: this.state.transaction
     }
     this.props.firebase.push('myaccount', data, () => {
       console.log('[submit]', data)
