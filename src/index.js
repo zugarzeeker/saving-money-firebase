@@ -5,7 +5,7 @@ import { IndexRoute, Router, Route, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import store from './redux/store';
 
-import { App, Note } from './containers';
+import { App, Note, History } from './containers';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/css/bootstrap-theme.min.css';
 import './index.css';
@@ -20,6 +20,7 @@ ReactDOM.render(
       <Route path="/" component={App}>
         <IndexRoute component={Home} />
         <Route path="note" component={Note} />
+        <Route path="history" component={History} />
       </Route>
     </Router>
   </Provider>,
